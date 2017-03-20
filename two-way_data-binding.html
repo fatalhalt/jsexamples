@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Two Way Data Binding Example</title>
+</head>
+<body>
+<h1>Purpose:</h1>
+<p>This example illustrates how to manually bind to an html element with jquery (one way binding)
+   and then same is done with use of client-side Vue.js MVC framework (this one support two-way binding
+</p>
+<p>Two-way binding is a way to keep Model (data) and View (the UI/DOM) in sync, so when user inputs into
+   textfield that change is propagated down to the <code>data: {fullname: ''}</code> Object in Vue</p>
+<h2>jQuery way (Manual)</h2>
+First Name: <input id="firstName"/><br>
+Last Name: <input id="lastName"/><br>
+Full Name: <span id="fullName"></span><br>
+
+<h2>Vue.js way</h2>
+<div id="app">
+    First Name: <input v-model="firstName"><br/>
+    Last Name: <input v-model="lastName"><br/>
+    Full Name: {{fullName}}<br/>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.0.slim.min.js" integrity="sha256-qLAv0kBAihcHZLI3fv3WITKeRsUX27hd6upBBa0MSow=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/vue"></script> <!-- Vue via CDN -->
+<script type="text/javascript">
+    $(function() {
+        function updateFullName() {
+            var fullName = $("#firstName").val() + " " + $("#lastName").val();
+            $("#fullName").text(fullName);
+        }
+
+        $("#firstName, #lastName").bind("change keyup", function () {
+            updateFullName();
+        });
+        $("#firstName").val("Richard");
+        $("#lastName").val("Stallman");
+        updateFullName();
+    });
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            firstName: 'Dennis',
+            lastName: 'Ritche',
+        },
+        computed: {
+            fullName: {
+                get: function(){
+                    return this.firstName + ' ' + this.lastName;
+                }
+            }
+        },
+    })
+</script>
+</body>
+</html>
